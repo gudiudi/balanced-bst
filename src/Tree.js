@@ -7,6 +7,26 @@ export default class Tree {
 		this.#root = this.#build(array);
 	}
 
+	insert(value, node = this.#root) {
+		if (!node) {
+			const newNode = new Node(value);
+
+			if (!this.#root) this.#root = newNode;
+
+			return newNode;
+		}
+
+		if (node.value === value) return node;
+
+		if (value < node.value) {
+			node.left = this.insert(value, node.left);
+		} else {
+			node.right = this.insert(value, node.right);
+		}
+
+		return node;
+	}
+
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
