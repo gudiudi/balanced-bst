@@ -32,21 +32,40 @@ export default class Tree {
 
 		if (value < node.value) {
 			node.left = this.delete(value, node.left);
-		} else if (value > node.value) {
-			node.right = this.delete(value, node.right);
-		} else {
-			if (!node.left && !node.right) return null;
-
-			if (!node.left) return node.right;
-
-			if (!node.right) return node.left;
-
-			const successor = this.#findMin(node);
-			node.value = successor.value;
-			node.right = this.delete(successor.value, node.right);
+			return node;
 		}
 
+		if (value > node.value) {
+			node.right = this.delete(value, node.right);
+			return node;
+		}
+
+		if (!node.left && !node.right) return null;
+
+		if (!node.left) return node.right;
+
+		if (!node.right) return node.left;
+
+		const successor = this.#findMin(node);
+		node.value = successor.value;
+		node.right = this.delete(successor.value, node.right);
+
 		return node;
+	}
+
+	find(value) {
+		let currentNode = this.#root;
+		while (currentNode) {
+			if (value === currentNode.value) return currentNode;
+
+			if (value < currentNode.value) {
+				currentNode = currentNode.left;
+			} else {
+				currentNode = currentNode.right;
+			}
+		}
+
+		return null;
 	}
 
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {

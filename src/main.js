@@ -7,3 +7,4 @@ tree.insert(8);
 tree.prettyPrint();
 tree.delete(8);
 tree.prettyPrint();
+console.log(tree.find(7).value);
