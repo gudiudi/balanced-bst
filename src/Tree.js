@@ -27,6 +27,28 @@ export default class Tree {
 		return node;
 	}
 
+	delete(value, node = this.#root) {
+		if (!node) return node;
+
+		if (value < node.value) {
+			node.left = this.delete(value, node.left);
+		} else if (value > node.value) {
+			node.right = this.delete(value, node.right);
+		} else {
+			if (!node.left && !node.right) return null;
+
+			if (!node.left) return node.right;
+
+			if (!node.right) return node.left;
+
+			const successor = this.#findMin(node);
+			node.value = successor.value;
+			node.right = this.delete(successor.value, node.right);
+		}
+
+		return node;
+	}
+
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
@@ -67,5 +89,13 @@ export default class Tree {
 		node.right = this.#split(values, mid + 1, end);
 
 		return node;
+	}
+
+	#findMin(node) {
+		let currentNode = node.right;
+		while (currentNode?.left) {
+			currentNode = currentNode.left;
+		}
+		return currentNode;
 	}
 }
