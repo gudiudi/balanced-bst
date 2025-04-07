@@ -7,6 +7,24 @@ export default class Tree {
 		this.#root = this.#build(array);
 	}
 
+	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
+		if (node === null) return;
+
+		if (node.right !== null) {
+			this.prettyPrint(
+				node.right,
+				`${prefix}${isLeft ? "│   " : "    "}`,
+				false,
+			);
+		}
+
+		console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+
+		if (node.left !== null) {
+			this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+		}
+	}
+
 	get root() {
 		return this.#root;
 	}
