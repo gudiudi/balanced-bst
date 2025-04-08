@@ -29,4 +29,4 @@ console.log(tree.depth(200));
 const numbers = [7, 6, 5, 4, 3, 2, 1];
 const tree = new Tree(numbers);
 tree.prettyPrint();
-tree.inOrder((node) => console.log(node.value));
+tree.postOrder((node) => console.log(node.value));

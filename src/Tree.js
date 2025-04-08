@@ -58,12 +58,11 @@ export default class Tree {
 	}
 
 	levelOrder(callback) {
-		return this.#traverse(callback, "levelOrder");
+		return this.#traverse(callback, "levelOrderIterative");
 	}
 
 	preOrder(callback) {
 		return this.#traverse(callback, "preOrderIterative");
-		//return this.#traverse(callback, "preOrderRec");
 	}
 
 	inOrder(callback) {
@@ -71,7 +70,7 @@ export default class Tree {
 	}
 
 	postOrder(callback) {
-		return this.#traverse(callback, "postOrder");
+		return this.#traverse(callback, "postOrderIterative");
 	}
 
 	// A single node (leaf) has height 0, An empty tree has height -1
@@ -171,12 +170,13 @@ export default class Tree {
 		}
 
 		const methods = {
-			levelOrder: this.#levelOrderIterative, // bfs
+			levelOrderIterative: this.#levelOrderIterative, // bfs
 			preOrderRec: this.#preOrderRec, // dfs
 			preOrderIterative: this.#preOrderIterative, // dfs
 			inOrderRec: this.#inOrderRec, // dfs
 			inOrderIterative: this.#inOrderIterative, // dfs
-			postOrder: this.#postOrderRec, // dfs
+			postOrderRec: this.#postOrderRec, // dfs
+			postOrderIterative: this.#postOrderIterative, // dfs
 		};
 
 		if (!methods[method]) {
@@ -249,6 +249,29 @@ export default class Tree {
 		this.#inOrderRec(callback, node.left);
 		callback(node);
 		this.#inOrderRec(callback, node.right);
+	}
+
+	#postOrderIterative(callback, node) {
+		const stack = []; // LIFO
+		let lastVisited = null;
+		let currentNode = node;
+
+		while (stack.length > 0 || currentNode) {
+			if (currentNode) {
+				stack.push(currentNode);
+				currentNode = currentNode.left;
+			} else {
+				const peekNode = stack[stack.length - 1];
+				if (peekNode.right && lastVisited !== peekNode.right) {
+					currentNode = peekNode.right;
+				} else {
+					callback(peekNode);
+					lastVisited = stack.pop();
+				}
+			}
+		}
+
+		return null;
 	}
 
 	#postOrderRec(callback, node) {
