@@ -84,6 +84,24 @@ export default class Tree {
 		return this.#traverse(callback, "postOrder");
 	}
 
+	depth(value) {
+		let currentNode = this.#root;
+		let count = 0;
+		while (currentNode) {
+			if (value === currentNode.value) return count;
+
+			if (value < currentNode.value) {
+				currentNode = currentNode.left;
+			} else {
+				currentNode = currentNode.right;
+			}
+
+			count++;
+		}
+
+		return null;
+	}
+
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
