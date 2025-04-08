@@ -1,5 +1,6 @@
 import Tree from "./Tree.js";
 
+/*
 function getRandomNumbers(count) {
 	const numbers = [];
 	for (let i = 0; i < count; i++) {
@@ -23,3 +24,9 @@ console.log(tree.isBalanced());
 
 console.log(tree.find(200));
 console.log(tree.depth(200));
+*/
+
+const numbers = [7, 6, 5, 4, 3, 2, 1];
+const tree = new Tree(numbers);
+tree.prettyPrint();
+tree.preOrder((node) => console.log(node.value));
