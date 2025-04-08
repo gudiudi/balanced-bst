@@ -1,15 +1,22 @@
 import Tree from "./Tree.js";
 
-const array = [1, 2, 3, 4, 5, 6];
-const tree = new Tree(array);
+function getRandomNumbers(count) {
+	const numbers = [];
+	for (let i = 0; i < count; i++) {
+		numbers.push(Math.floor(Math.random() * 100));
+	}
+	return numbers;
+}
 
-tree.prettyPrint();
+const numbers = getRandomNumbers(100);
+const tree = new Tree(numbers);
+console.log(tree.isBalanced());
 
-//tree.levelOrder((node) => console.log(node.value));
-//tree.preOrder((node) => console.log(node.value));
-//tree.inOrder((node) => console.log(node.value));
-//tree.postOrder((node) => console.log(node.value));
+const unbalancers = [150, 160, 170, 180, 190, 200];
+for (const num of unbalancers) {
+	tree.insert(num);
+}
+console.log(tree.isBalanced());
 
-//console.log(tree.height(4));
-//console.log(tree.depth(7));
+tree.rebalance();
 console.log(tree.isBalanced());

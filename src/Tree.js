@@ -134,7 +134,7 @@ export default class Tree {
 
 	rebalance() {
 		const array = [];
-		this.inOrder((node) => node.push(array));
+		this.inOrder((node) => array.push(node));
 		this.#root = this.#build(array);
 	}
 
