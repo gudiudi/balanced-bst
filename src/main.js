@@ -9,4 +9,5 @@ tree.prettyPrint();
 //tree.levelOrder((node) => console.log(node.value));
 //tree.preOrder((node) => console.log(node.value));
 
-tree.inOrder((node) => console.log(node.value));
+//tree.inOrder((node) => console.log(node.value));
+tree.postOrder((node) => console.log(node.value));

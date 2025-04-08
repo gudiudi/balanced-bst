@@ -90,33 +90,15 @@ export default class Tree {
 	}
 
 	preOrder(callback) {
-		if (typeof callback !== "function") {
-			throw new TypeError("Expected a function as callback");
-		}
-
-		return this.#preOrderRec(callback, this.#root);
+		return this.#traverse(callback, "preOrder");
 	}
 
 	inOrder(callback) {
-		if (typeof callback !== "function") {
-			throw new TypeError("Expected a function as callback");
-		}
-
-		return this.#inOrderRec(callback, this.#root);
+		return this.#traverse(callback, "inOrder");
 	}
 
-	#preOrderRec(callback, node) {
-		if (node === null) return;
-		callback(node);
-		if (node.left) this.#preOrderRec(callback, node.left);
-		if (node.right) this.#preOrderRec(callback, node.right);
-	}
-
-	#inOrderRec(callback, node) {
-		if (node === null) return;
-		if (node.left) this.#inOrderRec(callback, node.left);
-		callback(node);
-		if (node.right) this.#inOrderRec(callback, node.right);
+	postOrder(callback) {
+		return this.#traverse(callback, "postOrder");
 	}
 
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
@@ -167,5 +149,44 @@ export default class Tree {
 			currentNode = currentNode.left;
 		}
 		return currentNode;
+	}
+
+	#traverse(callback, method) {
+		if (typeof callback !== "function") {
+			throw new TypeError("Expected a function as callback");
+		}
+
+		const methods = {
+			preOrder: this.#preOrderRec,
+			inOrder: this.#inOrderRec,
+			postOrder: this.#postOrderRec,
+		};
+
+		if (!methods[method]) {
+			throw new Error(`Unknown traversal method: ${method}`);
+		}
+
+		return methods[method].call(this, callback, this.#root);
+	}
+
+	#preOrderRec(callback, node) {
+		if (node === null) return;
+		callback(node);
+		if (node.left) this.#preOrderRec(callback, node.left);
+		if (node.right) this.#preOrderRec(callback, node.right);
+	}
+
+	#inOrderRec(callback, node) {
+		if (node === null) return;
+		if (node.left) this.#inOrderRec(callback, node.left);
+		callback(node);
+		if (node.right) this.#inOrderRec(callback, node.right);
+	}
+
+	#postOrderRec(callback, node) {
+		if (node === null) return;
+		if (node.left) this.#postOrderRec(callback, node.left);
+		if (node.right) this.#postOrderRec(callback, node.right);
+		callback(node);
 	}
 }
