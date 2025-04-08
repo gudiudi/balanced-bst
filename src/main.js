@@ -6,4 +6,5 @@ const tree = new Tree(array);
 tree.insert(8);
 tree.prettyPrint();
 
-tree.levelOrder((node) => console.log(node.value));
+//tree.levelOrder((node) => console.log(node.value));
+tree.preOrder((node) => console.log(node.value));
