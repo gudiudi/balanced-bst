@@ -54,18 +54,7 @@ export default class Tree {
 	}
 
 	find(value) {
-		let currentNode = this.#root;
-		while (currentNode) {
-			if (value === currentNode.value) return currentNode;
-
-			if (value < currentNode.value) {
-				currentNode = currentNode.left;
-			} else {
-				currentNode = currentNode.right;
-			}
-		}
-
-		return null;
+		return this.#search(value).node;
 	}
 
 	levelOrder(callback) {
@@ -111,21 +100,8 @@ export default class Tree {
 	}
 
 	depth(value) {
-		let currentNode = this.#root;
-		let count = 0;
-		while (currentNode) {
-			if (value === currentNode.value) return count;
-
-			if (value < currentNode.value) {
-				currentNode = currentNode.left;
-			} else {
-				currentNode = currentNode.right;
-			}
-
-			count++;
-		}
-
-		return null;
+		const { depth } = this.#search(value);
+		return depth === -1 ? null : depth;
 	}
 
 	isBalanced() {
@@ -243,6 +219,24 @@ export default class Tree {
 		this.#postOrderRec(callback, node.left);
 		this.#postOrderRec(callback, node.right);
 		callback(node);
+	}
+
+	#search(value) {
+		let currentNode = this.#root;
+		let depth = 0;
+		while (currentNode) {
+			if (value === currentNode.value)
+				return { node: currentNode, depth: depth };
+
+			if (value < currentNode.value) {
+				currentNode = currentNode.left;
+			} else {
+				currentNode = currentNode.right;
+			}
+			depth++;
+		}
+
+		return { node: null, depth: -1 };
 	}
 
 	#checkBalance(node) {
