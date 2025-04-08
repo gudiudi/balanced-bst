@@ -97,13 +97,26 @@ export default class Tree {
 		return this.#preOrderRec(callback, this.#root);
 	}
 
+	inOrder(callback) {
+		if (typeof callback !== "function") {
+			throw new TypeError("Expected a function as callback");
+		}
+
+		return this.#inOrderRec(callback, this.#root);
+	}
+
 	#preOrderRec(callback, node) {
 		if (node === null) return;
-
 		callback(node);
-
 		if (node.left) this.#preOrderRec(callback, node.left);
 		if (node.right) this.#preOrderRec(callback, node.right);
+	}
+
+	#inOrderRec(callback, node) {
+		if (node === null) return;
+		if (node.left) this.#inOrderRec(callback, node.left);
+		callback(node);
+		if (node.right) this.#inOrderRec(callback, node.right);
 	}
 
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
