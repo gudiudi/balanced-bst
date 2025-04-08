@@ -132,25 +132,10 @@ export default class Tree {
 		return this.#checkBalance(this.#root) >= 0;
 	}
 
-	#checkBalance(node) {
-		if (!node) return 0;
-
-		const leftHeight = this.#checkBalance(node.left);
-		if (leftHeight === -1) {
-			return -1;
-		}
-
-		const rightHeight = this.#checkBalance(node.right);
-		if (rightHeight === -1) {
-			return -1;
-		}
-
-		const heightDifference = Math.abs(leftHeight - rightHeight);
-		if (heightDifference > 1) {
-			return -1;
-		}
-
-		return Math.max(leftHeight, rightHeight) + 1;
+	rebalance() {
+		const array = [];
+		this.inOrder((node) => node.push(array));
+		this.#root = this.#build(array);
 	}
 
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
@@ -258,5 +243,26 @@ export default class Tree {
 		this.#postOrderRec(callback, node.left);
 		this.#postOrderRec(callback, node.right);
 		callback(node);
+	}
+
+	#checkBalance(node) {
+		if (!node) return 0;
+
+		const leftHeight = this.#checkBalance(node.left);
+		if (leftHeight === -1) {
+			return -1;
+		}
+
+		const rightHeight = this.#checkBalance(node.right);
+		if (rightHeight === -1) {
+			return -1;
+		}
+
+		const heightDifference = Math.abs(leftHeight - rightHeight);
+		if (heightDifference > 1) {
+			return -1;
+		}
+
+		return Math.max(leftHeight, rightHeight) + 1;
 	}
 }
