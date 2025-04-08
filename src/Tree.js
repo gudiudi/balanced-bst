@@ -69,24 +69,7 @@ export default class Tree {
 	}
 
 	levelOrder(callback) {
-		if (typeof callback !== "function") {
-			throw new TypeError("Expected a function as callback");
-		}
-
-		const queue = [this.#root];
-		let front = 0;
-
-		while (front < queue.length) {
-			const currentNode = queue[front++];
-			if (!currentNode) continue;
-
-			callback(currentNode);
-
-			if (currentNode.left) queue.push(currentNode.left);
-			if (currentNode.right) queue.push(currentNode.right);
-		}
-
-		return null;
+		return this.#traverse(callback, "levelOrder");
 	}
 
 	preOrder(callback) {
@@ -157,6 +140,7 @@ export default class Tree {
 		}
 
 		const methods = {
+			levelOrder: this.#levelOrderIterative,
 			preOrder: this.#preOrderRec,
 			inOrder: this.#inOrderRec,
 			postOrder: this.#postOrderRec,
@@ -167,6 +151,23 @@ export default class Tree {
 		}
 
 		return methods[method].call(this, callback, this.#root);
+	}
+
+	#levelOrderIterative(callback, node) {
+		const queue = [node];
+		let front = 0;
+
+		while (front < queue.length) {
+			const currentNode = queue[front++];
+			if (!currentNode) continue;
+
+			callback(currentNode);
+
+			if (currentNode.left) queue.push(currentNode.left);
+			if (currentNode.right) queue.push(currentNode.right);
+		}
+
+		return null;
 	}
 
 	#preOrderRec(callback, node) {
