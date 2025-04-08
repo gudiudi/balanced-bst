@@ -128,6 +128,31 @@ export default class Tree {
 		return null;
 	}
 
+	isBalanced() {
+		return this.#checkBalance(this.#root) >= 0;
+	}
+
+	#checkBalance(node) {
+		if (!node) return 0;
+
+		const leftHeight = this.#checkBalance(node.left);
+		if (leftHeight === -1) {
+			return -1;
+		}
+
+		const rightHeight = this.#checkBalance(node.right);
+		if (rightHeight === -1) {
+			return -1;
+		}
+
+		const heightDifference = Math.abs(leftHeight - rightHeight);
+		if (heightDifference > 1) {
+			return -1;
+		}
+
+		return Math.max(leftHeight, rightHeight) + 1;
+	}
+
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
