@@ -67,7 +67,7 @@ export default class Tree {
 	}
 
 	inOrder(callback) {
-		return this.#traverse(callback, "inOrder");
+		return this.#traverse(callback, "inOrderIterative");
 	}
 
 	postOrder(callback) {
@@ -173,8 +173,9 @@ export default class Tree {
 		const methods = {
 			levelOrder: this.#levelOrderIterative, // bfs
 			preOrderRec: this.#preOrderRec, // dfs
-			preOrderIterative: this.#preOrderIterative, // bfs
-			inOrder: this.#inOrderRec, // dfs
+			preOrderIterative: this.#preOrderIterative, // dfs
+			inOrderRec: this.#inOrderRec, // dfs
+			inOrderIterative: this.#inOrderIterative, // dfs
 			postOrder: this.#postOrderRec, // dfs
 		};
 
@@ -186,7 +187,7 @@ export default class Tree {
 	}
 
 	#levelOrderIterative(callback, node) {
-		const queue = [node];
+		const queue = [node]; // FIFO
 		let front = 0;
 
 		while (front < queue.length) {
@@ -203,7 +204,7 @@ export default class Tree {
 	}
 
 	#preOrderIterative(callback, node) {
-		const stack = [node];
+		const stack = [node]; // LIFO
 
 		while (stack.length > 0) {
 			const currentNode = stack.pop();
@@ -222,6 +223,25 @@ export default class Tree {
 		callback(node);
 		this.#preOrderRec(callback, node.left);
 		this.#preOrderRec(callback, node.right);
+	}
+
+	#inOrderIterative(callback, node) {
+		const stack = []; // LIFO
+		let currentNode = node;
+
+		while (stack.length > 0 || currentNode) {
+			while (currentNode !== null) {
+				stack.push(currentNode);
+				currentNode = currentNode.left;
+			}
+
+			currentNode = stack.pop();
+			callback(currentNode);
+
+			currentNode = currentNode.right;
+		}
+
+		return null;
 	}
 
 	#inOrderRec(callback, node) {
