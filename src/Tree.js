@@ -84,6 +84,31 @@ export default class Tree {
 		return this.#traverse(callback, "postOrder");
 	}
 
+	height(value) {
+		const node = this.find(value);
+		if (!node) return null;
+		if (!node.left && !node.right) return 1;
+
+		const queue = [node];
+		let front = 0;
+		let height = 0;
+
+		while (front < queue.length) {
+			const levelSize = queue.length - front;
+
+			for (let i = 0; i < levelSize; i++) {
+				const currentNode = queue[front++];
+				if (!currentNode) continue;
+
+				if (currentNode.left) queue.push(currentNode.left);
+				if (currentNode.right) queue.push(currentNode.right);
+			}
+			height++;
+		}
+
+		return height;
+	}
+
 	depth(value) {
 		let currentNode = this.#root;
 		let count = 0;
