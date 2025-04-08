@@ -84,10 +84,11 @@ export default class Tree {
 		return this.#traverse(callback, "postOrder");
 	}
 
+	// A single node (leaf) has height 0, An empty tree has height -1
 	height(value) {
 		const node = this.find(value);
-		if (!node) return null;
-		if (!node.left && !node.right) return 1;
+		if (!node) return -1;
+		if (!node.left && !node.right) return 0;
 
 		const queue = [node];
 		let front = 0;
@@ -106,7 +107,7 @@ export default class Tree {
 			height++;
 		}
 
-		return height;
+		return height - 1;
 	}
 
 	depth(value) {
