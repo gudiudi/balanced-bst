@@ -173,21 +173,21 @@ export default class Tree {
 	#preOrderRec(callback, node) {
 		if (node === null) return;
 		callback(node);
-		if (node.left) this.#preOrderRec(callback, node.left);
-		if (node.right) this.#preOrderRec(callback, node.right);
+		this.#preOrderRec(callback, node.left);
+		this.#preOrderRec(callback, node.right);
 	}
 
 	#inOrderRec(callback, node) {
 		if (node === null) return;
-		if (node.left) this.#inOrderRec(callback, node.left);
+		this.#inOrderRec(callback, node.left);
 		callback(node);
-		if (node.right) this.#inOrderRec(callback, node.right);
+		this.#inOrderRec(callback, node.right);
 	}
 
 	#postOrderRec(callback, node) {
 		if (node === null) return;
-		if (node.left) this.#postOrderRec(callback, node.left);
-		if (node.right) this.#postOrderRec(callback, node.right);
+		this.#postOrderRec(callback, node.left);
+		this.#postOrderRec(callback, node.right);
 		callback(node);
 	}
 }
