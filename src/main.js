@@ -9,7 +9,7 @@ function getRandomNumbers(count) {
 }
 
 const numbers = getRandomNumbers(100);
-const tree = new Tree(numbers);
+const tree = new Tree([numbers]);
 console.log(tree.isBalanced());
 
 const unbalancers = [150, 160, 170, 180, 190, 200];
@@ -20,3 +20,6 @@ console.log(tree.isBalanced());
 
 tree.rebalance();
 console.log(tree.isBalanced());
+
+console.log(tree.find(200));
+console.log(tree.depth(200));

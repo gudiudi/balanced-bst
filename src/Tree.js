@@ -28,7 +28,7 @@ export default class Tree {
 	}
 
 	delete(value, node = this.#root) {
-		if (!node) return node;
+		if (!node) return null;
 
 		if (value < node.value) {
 			node.left = this.delete(value, node.left);
@@ -110,7 +110,7 @@ export default class Tree {
 
 	rebalance() {
 		const array = [];
-		this.inOrder((node) => array.push(node));
+		this.inOrder((node) => array.push(node.value));
 		this.#root = this.#build(array);
 	}
 
