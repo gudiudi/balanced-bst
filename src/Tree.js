@@ -68,6 +68,27 @@ export default class Tree {
 		return null;
 	}
 
+	levelOrder(callback) {
+		if (typeof callback !== "function") {
+			throw new TypeError("Expected a function as callback");
+		}
+
+		const queue = [this.#root];
+		let front = 0;
+
+		while (front < queue.length) {
+			const currentNode = queue[front++];
+			if (!currentNode) continue;
+
+			callback(currentNode);
+
+			if (currentNode.left) queue.push(currentNode.left);
+			if (currentNode.right) queue.push(currentNode.right);
+		}
+
+		return null;
+	}
+
 	prettyPrint(node = this.#root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
